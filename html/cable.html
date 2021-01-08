@@ -1,0 +1,19 @@
+<a id="CableBack" href="#">< Back to manager</a>
+<div id="CablePreview"></div>
+<form class="needs-validation mt-2" novalidate>
+  <div class="form-group">
+    <label for="CableName">Signal name</label>
+    <input type="text" class="form-control" id="CableName" placeholder="Enter signal name" required>
+    <div id="CableNameValid" class="invalid-feedback" style="width: 100%;"></div>
+  </div>
+  <div class="form-group">
+    <label for="CableDescription">Signal Description</label>
+    <textarea class="form-control" id="CableDescription" placeholder="Enter signal description" rows="3"></textarea>
+  </div>
+</form>
+<div class="btn-group">
+  <button id="CableSend" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Send</button>
+  <div class="dropdown-menu dropdown-menu" id="CableSendSubmenu" aria-labelledby="CableSend"></div>
+  <button id="CableSave" type="button" class="btn btn-primary">Save</button>
+</div>

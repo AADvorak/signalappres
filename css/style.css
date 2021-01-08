@@ -1,0 +1,23 @@
+.moduleHeader {
+  width: 100%;
+  text-align: center;
+  box-shadow: inset 0px -3px 8px 0px #826a6a2e;
+  background: #f4f7f7;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.moduleClose {
+  position: absolute;
+  top: 1%;
+  right: 5%;
+}
+
+.moduleCaption {
+  color: #65686b;
+}
+
+.workspaceAlert {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}

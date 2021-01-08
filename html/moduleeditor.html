@@ -1,0 +1,35 @@
+<form class="needs-validation" novalidate>
+  <div class="form-group">
+    <label for="ModuleEditorModule">Module</label>
+    <input type="text" class="form-control" id="ModuleEditorModule" placeholder="Enter module" required>
+    <div id="ModuleEditorModuleValid" class="invalid-feedback" style="width: 100%;"></div>
+  </div>
+  <div class="form-group">
+    <label for="ModuleEditorName">Module name</label>
+    <input type="text" class="form-control" id="ModuleEditorName" placeholder="Enter module name" required>
+    <div id="ModuleEditorNameValid" class="invalid-feedback" style="width: 100%;"></div>
+  </div>
+  <div class="form-group">
+    <label for="ModuleEditorContainer">Module container</label>
+    <select class="form-control" id="ModuleEditorContainer">
+      <option></option>
+      <option>main</option>
+      <option>left</option>
+      <option>right</option>
+      <option>modal</option>
+    </select>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="ModuleEditorForMenu">
+    <label class="form-check-label" for="ModuleEditorForMenu">
+      Show in menu
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="ModuleEditorTransformer">
+    <label class="form-check-label" for="ModuleEditorTransformer">
+      Is transformer
+    </label>
+  </div>
+</form>
+
