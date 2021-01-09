@@ -31,23 +31,9 @@ create table signal_data
 );
 
 INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('SignalGenerator', 'Signal generator', 'left', true, false);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('SignalManager', 'Signal manager', 'main', true, false);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('SignalViewer', 'Signal viewer', 'main', false, false);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
 VALUES ('DummyTransformer', 'Dummy transformer', null, false, true);
 INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('ModuleManager', 'Module manager', 'main', true, false);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('ModuleEditor', 'Module editor', 'modal', false, false);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
 VALUES ('LinearAmp', 'Linear amplifier', 'right', false, true);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('Cable', 'Cable', 'main', false, false);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('Adder', 'Signal adder', null, false, false);
 INSERT INTO public.module (module, name, container, for_menu, transformer)
 VALUES ('Integrator', 'Integrator', null, false, true);
 INSERT INTO public.module (module, name, container, for_menu, transformer)

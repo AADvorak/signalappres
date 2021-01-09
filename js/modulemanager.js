@@ -62,7 +62,7 @@ ModuleManager = {
 
   refreshTable() {
     this.ui.table.clearAll()
-    this.ui.table.makeTableRows(Workspace.modules)
+    this.ui.table.makeTableRows(Workspace.getUserModules())
   },
 
   async editModule(module) {

@@ -1,5 +1,15 @@
 Workspace = {
 
+  MODULES_BASE: [
+    {module: 'SignalGenerator', name: 'Signal generator', container: 'left', forMenu: true},
+    {module: 'SignalManager', name: 'Signal manager', container: 'main', forMenu: true},
+    {module: 'SignalViewer', name: 'Signal viewer', container: 'main', forMenu: false},
+    {module: 'ModuleManager', name: 'Module manager', container: 'main', forMenu: true},
+    {module: 'ModuleEditor', name: 'Module editor', container: 'modal', forMenu: false},
+    {module: 'Cable', name: 'Cable', container: 'main', forMenu: false},
+    {module: 'Adder', name: 'Signal adder', forMenu: false}
+  ],
+
   modules: [],
 
   modulesInContainers: {},
@@ -46,7 +56,6 @@ Workspace = {
 
   setScrollHeight() {
     let h = document.documentElement.clientHeight - 100
-    console.log(h)
     this.ui.mainContainer.css('max-height', h)
     this.ui.leftContainer.css('max-height', h)
     this.ui.rightContainer.css('max-height', h)
@@ -62,7 +71,21 @@ Workspace = {
   },
 
   async startModule({module, param}) {
+    let found = false
     for (let moduleObj of this.modules) {
+      if (moduleObj.module === module) {
+        await this.setModuleToContainer({
+          module,
+          param,
+          name: moduleObj.name,
+          container: moduleObj.container,
+          isUserModule: true
+        })
+        found = true
+        break
+      }
+    }
+    if (!found) for (let moduleObj of this.MODULES_BASE) {
       if (moduleObj.module === module) {
         await this.setModuleToContainer({
           module,
@@ -70,13 +93,14 @@ Workspace = {
           name: moduleObj.name,
           container: moduleObj.container
         })
+        found = true
         break
       }
     }
   },
   
-  async setModuleToContainer({module, name, container, param}) {
-    let obj = await ModuleLoader.loadModule({module, param, container: this.ui[container + 'Container']})
+  async setModuleToContainer({module, name, container, param, isUserModule}) {
+    let obj = await ModuleLoader.loadModule({module, isUserModule, container: this.ui[container + 'Container']})
     if (container) {
       this.setCaption({name, container})
       if (this.modulesInContainers[container]) {
@@ -149,10 +173,18 @@ Workspace = {
 
   getModulesForMenu() {
     let forMenu = []
-    for (let module of this.modules) {
+    for (let module of this.getAllModules()) {
       if (module.forMenu) forMenu.push(module)
     }
     return forMenu
+  },
+
+  getAllModules() {
+    return [...this.MODULES_BASE, ...this.modules]
+  },
+
+  getUserModules() {
+    return this.modules
   },
 
   unsubscribeModuleFromEvents(obj) {

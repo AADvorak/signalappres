@@ -1,14 +1,14 @@
 ModuleLoader = {
 
-  async loadModule({module, container}) {
-    await this.loadModuleScript(module)
-    await this.loadHtmlToContainer({module, container})
+  async loadModule({module, container, isUserModule}) {
+    await this.loadModuleScript({module, isUserModule})
+    await this.loadHtmlToContainer({module, container, isUserModule})
     return window[module]
   },
 
-  loadModuleScript(module) {
+  loadModuleScript({module, isUserModule}) {
     return this.loadScript({
-      src: this.getModuleScriptLink(module),
+      src: this.getModuleResourceLink({module, isUserModule, extension: 'js'}),
       id: 'script_' + module
     })
   },
@@ -25,19 +25,16 @@ ModuleLoader = {
     })
   },
 
-  async loadHtmlToContainer({module, container}) {
+  async loadHtmlToContainer({module, container, isUserModule}) {
     if (container) {
-      let html = await ApiProvider.getText(this.getModuleHtmlLink(module))
+      let html = await ApiProvider.getText(this.getModuleResourceLink({module, isUserModule, extension: 'html'}))
       if (html) container.html(html)
     }
   },
 
-  getModuleScriptLink(module) {
-    return '/js/' + module.toLowerCase() + '.js'
-  },
-
-  getModuleHtmlLink(module) {
-    return '/html/' + module.toLowerCase() + '.html'
+  getModuleResourceLink({module, isUserModule, extension}) {
+    let path = isUserModule ? '/modules/' + module.toLowerCase() + '/' : '/' + extension + '/'
+    return path + module.toLowerCase() + '.' + extension
   },
 
 }
