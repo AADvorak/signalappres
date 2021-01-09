@@ -25,6 +25,7 @@ SignalGenerator = {
     this.ui.offsetInp = $('#SignalGeneratorOffset')
     this.ui.formSel = $('#SignalGeneratorForm')
     this.ui.saveBtn = $('#SignalGeneratorSave')
+    this.ui.fileInp = $('#SignalGeneratorFile')
   },
 
   fillFormSelector() {
@@ -36,6 +37,9 @@ SignalGenerator = {
   initEvents() {
     this.ui.saveBtn.on('click', () => {
       this.generateAndOpenSaver(this.getFormValues())
+    })
+    this.ui.fileInp.on('change', () => {
+      this.importFromFile().then()
     })
   },
 
@@ -58,15 +62,30 @@ SignalGenerator = {
       let y = this.SIGNAL_FORMS[form]({x, period, amplitude, offset})
       data.push({x, y})
     }
+    this.sendToCable({
+      title: {
+        name: `Generated ${form} signal`,
+        description: `Period = ${period}, Amplitude = ${amplitude}`
+      },
+      data
+    })
+  },
+
+  async importFromFile() {
+    let data = await FileManager.readFile(this.ui.fileInp)
+    this.sendToCable({
+      title: {
+        name: `Imported signal`,
+        description: `Imported from file ${this.ui.fileInp.val()}`
+      },
+      data
+    })
+  },
+
+  sendToCable(signal) {
     Workspace.startModule({
       module: 'Cable',
-      param: {
-        title: {
-          name: `Generated ${form} signal`,
-          description: `Period = ${period}, Amplitude = ${amplitude}`
-        },
-        data
-      },
+      param: signal
     }).then()
   }
 

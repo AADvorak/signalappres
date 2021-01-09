@@ -100,6 +100,9 @@ Workspace = {
   },
   
   async setModuleToContainer({module, name, container, param, isUserModule}) {
+    if (['left', 'right'].includes(container) && document.documentElement.clientWidth < 1024) {
+      container = 'main'
+    }
     let obj = await ModuleLoader.loadModule({module, isUserModule, container: this.ui[container + 'Container']})
     if (container) {
       this.setCaption({name, container})

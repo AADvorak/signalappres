@@ -7,9 +7,12 @@ ModuleLoader = {
   },
 
   loadModuleScript({module, isUserModule}) {
+    let id = 'Script' + module
+    let oldScript = document.getElementById(id)
+    if (oldScript) oldScript.remove()
     return this.loadScript({
       src: this.getModuleResourceLink({module, isUserModule, extension: 'js'}),
-      id: 'script_' + module
+      id
     })
   },
 
@@ -35,6 +38,6 @@ ModuleLoader = {
   getModuleResourceLink({module, isUserModule, extension}) {
     let path = isUserModule ? '/modules/' + module.toLowerCase() + '/' : '/' + extension + '/'
     return path + module.toLowerCase() + '.' + extension
-  },
+  }
 
 }
