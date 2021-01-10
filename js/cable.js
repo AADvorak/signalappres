@@ -1,7 +1,10 @@
 Cable = {
 
-  init(param) {
-    this.signal = param
+  /**
+   * @param {Signal} signal
+   */
+  init(signal) {
+    this.signal = signal
     this.selectElements()
     this.initEvents()
     this.fillForm()
@@ -52,7 +55,7 @@ Cable = {
   },
 
   showPreview() {
-    ChartDrawer.drawLine({container: this.ui.preview, signal: this.signal})
+    ChartDrawer.drawLines({container: this.ui.preview, signals: [this.signal]})
   },
 
   sendSignal({module}) {

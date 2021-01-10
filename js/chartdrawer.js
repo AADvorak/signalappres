@@ -1,11 +1,24 @@
 ChartDrawer = {
 
-  drawLine({container, signal}) {
+  /**
+   * @param {Object} container
+   * @param {Signal[]} signals
+   */
+  drawLines({container, signals}) {
     let categories = []
-    let data = []
-    for (let point of signal.data) {
+    for (let point of signals[0].data) {
       categories.push(parseFloat(point.x).toFixed(2))
-      data.push(parseFloat(point.y))
+    }
+    let series = []
+    for (let signal of signals) {
+      let data = []
+      for (let item of signal.data) {
+        data.push(parseFloat(item.y))
+      }
+      series.push({
+        name: signal.title.name,
+        data
+      })
     }
     let containerId = container.attr('id')
     Highcharts.chart(containerId, {
@@ -13,10 +26,18 @@ ChartDrawer = {
         categories
       },
       title: {
-        text: signal.title.name
+        text: this.makeChartTitle(signals)
       },
-      series: [{data}],
+      series,
     });
+  },
+
+  /**
+   * @param {Signal[]} signals
+   * @returns {string}
+   */
+  makeChartTitle(signals) {
+    return signals.length > 1 ? `Selected ${signals.length} signals` : signals[0].title.name
   }
 
 }

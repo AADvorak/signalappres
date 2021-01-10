@@ -1,14 +1,16 @@
 SignalViewer = {
 
-  async init(param) {
-    this.signal = param
+  /**
+   * @param {Signal[]} signals
+   */
+  async init(signals) {
     let container = $('#SignalViewerChart')
     $('#SignalViewerBack').on('click', () => {
       Workspace.startModule({
         module: 'SignalManager'
       })
     })
-    ChartDrawer.drawLine({container, signal: this.signal})
+    ChartDrawer.drawLines({container, signals})
   },
 
 }

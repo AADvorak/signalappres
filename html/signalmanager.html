@@ -1,4 +1,12 @@
 <div id="SignalManagerMain">
   <h3>Signals list</h3>
 </div>
-<button id="SignalManagerAdd" type="button" class="btn btn-primary">Add selected signals</button>
+<div class="btn-group" role="group">
+  <button id="SignalManagerSelectedDropdown" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Selected signals...
+  </button>
+  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+    <button id="SignalManagerAdd" class="dropdown-item" type="button">Add</button>
+    <button id="SignalManagerView" class="dropdown-item" type="button">View</button>
+  </div>
+</div>

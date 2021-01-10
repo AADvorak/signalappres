@@ -1,3 +1,22 @@
+/**
+ * @typedef {Object} Signal
+ * @property {SignalTitle} title
+ * @property {SignalData[]} data
+ */
+
+/**
+ * @typedef {Object} SignalTitle
+ * @property {number} id
+ * @property {string} name
+ * @property {string} description
+ */
+
+/**
+ * @typedef {Object} SignalData
+ * @property {string} x
+ * @property {string} y
+ */
+
 SignalManager = {
 
   init() {
@@ -10,11 +29,15 @@ SignalManager = {
   selectElements() {
     this.ui = {}
     this.ui.addSignalsBtn = $('#SignalManagerAdd')
+    this.ui.viewSignalsBtn = $('#SignalManagerView')
   },
 
   initEvents() {
     this.ui.addSignalsBtn.on('click', () => {
-      this.addSignals().then()
+      this.sendSelectedSignals('Adder').then()
+    })
+    this.ui.viewSignalsBtn.on('click', () => {
+      this.sendSelectedSignals('SignalViewer').then()
     })
   },
 
@@ -46,7 +69,7 @@ SignalManager = {
             return `<a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>`
           },
           click: (title) => {
-            this.sendSignal({title, module: 'SignalViewer'}).then()
+            this.sendSignals({titles: [title], module: 'SignalViewer'}).then()
           }
         },
         del: {
@@ -66,21 +89,37 @@ SignalManager = {
     this.ui.table.makeTableRows(await ApiProvider.getJson('/signals'))
   },
 
+  /**
+   * @param {SignalTitle} title
+   * @returns {Promise<void>}
+   */
   async deleteSignal(title) {
     await ApiProvider.del('/signals/' + title.id)
     this.ui.table.clearAll()
     await this.fillTable()
   },
 
+  /**
+   * @param {SignalTitle} title
+   * @returns {Promise<Signal>}
+   */
   async getSignal(title) {
-    let data = await ApiProvider.getJson('/signaldata/' + title.id)
+    let data = await this.getSignalData(title)
     return {title, data}
   },
 
+  /**
+   * @param {SignalTitle} title
+   * @returns {Promise<SignalData>}
+   */
   async getSignalData(title) {
     return await ApiProvider.getJson('/signaldata/' + title.id)
   },
 
+  /**
+   * @param {SignalTitle} title
+   * @param {string} module
+   */
   async sendSignal({title, module}) {
     let signal = await this.getSignal(title)
     await Workspace.startModule({
@@ -89,35 +128,49 @@ SignalManager = {
     })
   },
 
-  async addSignals() {
-    let selectedSignalsTitle = this.ui.table.getSelectedData()
-    if (!selectedSignalsTitle.length) {
-      Workspace.showAlert('No signals chosen')
-      return
+  /**
+   * @param {SignalTitle[]} titles
+   * @param {string} module
+   */
+  async sendSignals({titles, module}) {
+    let signals = []
+    for (let title of titles) {
+      signals.push(await this.getSignal(title))
     }
-    let selectedSignalsData = []
-    for (let title of selectedSignalsTitle) {
-      selectedSignalsData.push(await this.getSignalData(title))
-    }
-    if (!this.checkSignalsHaveSameXValues(selectedSignalsData)) {
+    if (!this.checkSignalsHaveSameXValues(signals)) {
       Workspace.showAlert('Selected signal must have same X values')
       return
     }
     await Workspace.startModule({
-      module: 'Adder',
-      param: selectedSignalsData
+      module,
+      param: signals
     })
   },
 
-  checkSignalsHaveSameXValues(signalsData) {
-    let length = signalsData[0].length
-    for (let data of signalsData) {
-      if (data.length !== length) return false
+  /**
+   * @param {string} module
+   */
+  async sendSelectedSignals(module) {
+    let titles = this.ui.table.getSelectedData()
+    if (!titles.length) {
+      Workspace.showAlert('No signals chosen')
+      return
+    }
+    await this.sendSignals({titles, module})
+  },
+
+  /**
+   * @param {Signal[]} signals
+   */
+  checkSignalsHaveSameXValues(signals) {
+    let length = signals[0].data.length
+    for (let signal of signals) {
+      if (signal.data.length !== length) return false
     }
     for (let i = 0; i < length; i++) {
-      let x = signalsData[0][i].x
-      for (let data of signalsData) {
-        if (data[i].x !== x) return false
+      let x = signals[0].data[i].x
+      for (let signal of signals) {
+        if (signal.data[i].x !== x) return false
       }
     }
     return true

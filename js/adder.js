@@ -1,23 +1,26 @@
 Adder = {
 
+  /**
+   * @param {Signal[]} param
+   */
   init(param) {
     let output = {
       title: {
         name: 'Adder output signal',
-        description: `Sum of ${param.length} signals`
+        description: this.makeNewSignalDescription(param)
       },
       data: []
     }
-    for (let data of param) {
+    for (let signal of param) {
       if (!output.data.length) {
-        for (let item of data) output.data.push({
+        for (let item of signal.data) output.data.push({
           x: item.x,
           y: parseFloat(item.y)
         })
       } else {
-        for (let i = 0; i < data.length; i++) {
-          if (output.data[i] && data[i].x === output.data[i].x) {
-            output.data[i].y += parseFloat(data[i].y)
+        for (let i = 0; i < signal.data.length; i++) {
+          if (output.data[i] && signal.data[i].x === output.data[i].x) {
+            output.data[i].y += parseFloat(signal.data[i].y)
           }
         }
       }
@@ -26,6 +29,18 @@ Adder = {
       module: 'Cable',
       param: output
     }).then()
+  },
+
+  /**
+   * @param {Signal[]} signals
+   * @returns {string}
+   */
+  makeNewSignalDescription(signals) {
+    let description = `Sum of ${signals.length} signals:`
+    for (let signal of signals) {
+      description += `\n${signal.title.name},`
+    }
+    return description
   }
 
 }
