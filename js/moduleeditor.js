@@ -49,7 +49,6 @@ ModuleEditor = {
     } else {
       await ApiProvider.postJson('/modules', newModule)
     }
-
   }
 
 }

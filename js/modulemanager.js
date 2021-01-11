@@ -73,7 +73,8 @@ ModuleManager = {
   },
 
   async deleteModule(module) {
-
+    await ApiProvider.del('/modules/' + module.id)
+    EVENTS.MODULES_CHANGED.trigger()
   }
 
 }
