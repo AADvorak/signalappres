@@ -20,6 +20,7 @@ Workspace = {
     this.setScrollHeight()
     await this.loadMenu()
     await this.setStartPage()
+    await this.loadSignalStack()
     EVENTS.MODULES_CHANGED.trigger()
   },
 
@@ -67,6 +68,11 @@ Workspace = {
 
   async loadMenu() {
     let obj = await ModuleLoader.loadModule({module: 'TopMenu', container: this.ui.menu})
+    obj.init()
+  },
+
+  async loadSignalStack() {
+    let obj = await ModuleLoader.loadModule({module: 'SignalStack'})
     obj.init()
   },
 

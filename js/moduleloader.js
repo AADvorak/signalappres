@@ -2,7 +2,7 @@ ModuleLoader = {
 
   async loadModule({module, container, isUserModule}) {
     await this.loadModuleScript({module, isUserModule})
-    await this.loadHtmlToContainer({module, container, isUserModule})
+    if (container) await this.loadHtmlToContainer({module, container, isUserModule})
     return window[module]
   },
 
@@ -29,10 +29,8 @@ ModuleLoader = {
   },
 
   async loadHtmlToContainer({module, container, isUserModule}) {
-    if (container) {
-      let html = await ApiProvider.getText(this.getModuleResourceLink({module, isUserModule, extension: 'html'}))
-      if (html) container.html(html)
-    }
+    let html = await ApiProvider.getText(this.getModuleResourceLink({module, isUserModule, extension: 'html'}))
+    if (html) container.html(html)
   },
 
   getModuleResourceLink({module, isUserModule, extension}) {

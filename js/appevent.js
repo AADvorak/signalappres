@@ -32,6 +32,11 @@ EVENTS = {
   /**
    * modules list is changed in DB
    */
-  MODULES_CHANGED: new AppEvent()
+  MODULES_CHANGED: new AppEvent(),
+
+  /**
+   * Signal stack need to be cleared
+   */
+  CLEAR_SIGNAL_STACK: new AppEvent()
 
 }

@@ -1,7 +1,7 @@
 LinearAmp = {
 
   init(param) {
-    this.signal = {...param}
+    this.signal = param
     this.selectElements()
     this.initEvents()
   },

@@ -1,7 +1,7 @@
 Differentiator = {
 
   init(param) {
-    this.signal = {...param}
+    this.signal = param
     let data = this.signal.data
     let output = []
     output.push({

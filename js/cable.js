@@ -33,9 +33,7 @@ Cable = {
       this.saveSignalAsNew().then()
     })
     this.ui.backLnk.on('click', () => {
-      Workspace.startModule({
-        module: 'SignalManager'
-      }).then()
+      this.goBack()
     })
   },
 
@@ -64,10 +62,25 @@ Cable = {
   },
 
   sendSignal({module}) {
+    SignalStack.addSignal(this.signal)
     Workspace.startModule({
       module,
-      param: this.signal
+      param: this.copySignal()
     }).then()
+  },
+
+  goBack() {
+    let lastSignal = SignalStack.takeLastSignal()
+    if (lastSignal) {
+      Workspace.startModule({
+        module: 'Cable',
+        param: lastSignal
+      }).then()
+    } else {
+      Workspace.startModule({
+        module: 'SignalManager'
+      }).then()
+    }
   },
 
   async saveSignalAsNew() {
@@ -104,6 +117,10 @@ Cable = {
 
   signalIsSaved() {
     return this.signal.title && this.signal.title.id
+  },
+
+  copySignal() {
+    return JSON.parse(JSON.stringify(this.signal))
   }
 
 }

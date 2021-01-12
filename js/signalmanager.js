@@ -53,7 +53,7 @@ SignalManager = {
             return `<a href="#">${value}</a>`
           },
           click: (title) => {
-            this.sendSignal({title, module: 'Cable'}).then()
+            this.sendSignalToCable(title).then()
           }
         },
         description: {name: 'Description'},
@@ -118,12 +118,12 @@ SignalManager = {
 
   /**
    * @param {SignalTitle} title
-   * @param {string} module
    */
-  async sendSignal({title, module}) {
+  async sendSignalToCable(title) {
     let signal = await this.getSignal(title)
+    EVENTS.CLEAR_SIGNAL_STACK.trigger()
     await Workspace.startModule({
-      module,
+      module: 'Cable',
       param: signal
     })
   },
