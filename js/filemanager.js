@@ -1,9 +1,17 @@
 FileManager = {
 
-  saveToFile(txt) {
-    const file = new File([txt], 'signal.txt', {type: 'application/octet-stream'})
-    const blobUrl = (URL || webkitURL).createObjectURL(file)
-    window.location = blobUrl
+  /**
+   * @param {Signal} signal
+   */
+  saveToFile(signal) {
+    const txt = this.signalDataToTxt(signal.data)
+    let element = document.createElement('a')
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt))
+    element.setAttribute('download', signal.title.name + '.txt')
+    element.style.display = 'none'
+    document.body.appendChild(element)
+    element.click()
+    document.body.removeChild(element)
   },
 
   readFile(fileInp) {
@@ -37,6 +45,17 @@ FileManager = {
       }
     }
     return data
+  },
+
+  /**
+   * @param {SignalData[]} data
+   */
+  signalDataToTxt(data) {
+    let txt = ''
+    for (let item of data) {
+      txt += `${item.x} ${item.y}\n`
+    }
+    return txt
   }
 
 }

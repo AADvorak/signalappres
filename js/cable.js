@@ -23,6 +23,7 @@ Cable = {
     this.ui.sendSubmenu = $('#CableSendSubmenu')
     this.ui.backLnk = $('#CableBack')
     this.ui.saveAsNewBtn = $('#CableSaveAsNew')
+    this.ui.exportToFileBtn = $('#CableExportToFile')
   },
 
   initEvents() {
@@ -34,6 +35,9 @@ Cable = {
     })
     this.ui.backLnk.on('click', () => {
       this.goBack()
+    })
+    this.ui.exportToFileBtn.on('click', () => {
+      FileManager.saveToFile(this.signal)
     })
   },
 
