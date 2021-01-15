@@ -1,11 +1,17 @@
 SignalGenerator = {
 
   SIGNAL_FORMS: {
-    sin: ({x, period, amplitude, offset}) => {
-      return offset + amplitude * Math.sin(x * 2 * 3.14 / period)
+    sine: ({x, period, amplitude, offset}) => {
+      return offset + amplitude * Math.sin(x * 2 * Math.PI / period)
     },
-    rect: ({x, period, amplitude, offset}) => {
-      return Math.sin(x * 2 * 3.14 / period) >= 0 ? offset + amplitude : offset - amplitude
+    square: ({x, period, amplitude, offset}) => {
+      return Math.sin(x * 2 * Math.PI / period) >= 0 ? offset + amplitude : offset - amplitude
+    },
+    triangle: ({x, period, amplitude, offset}) => {
+      return offset + (2 * amplitude / Math.PI) * Math.asin(Math.sin(x * 2 * Math.PI / period))
+    },
+    sawtooth: ({x, period, amplitude, offset}) => {
+      return offset + (2 * amplitude / Math.PI) * Math.atan(Math.tan(x * Math.PI / period))
     }
   },
 
