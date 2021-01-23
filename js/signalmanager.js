@@ -1,14 +1,10 @@
 /**
  * @typedef {Object} Signal
- * @property {SignalTitle} title
- * @property {SignalData[]} data
- */
-
-/**
- * @typedef {Object} SignalTitle
- * @property {number} id
+ * @property {number} [id]
  * @property {string} name
  * @property {string} description
+ * @property {string[]} [createTime]
+ * @property {SignalData[]} [data]
  */
 
 /**
@@ -52,24 +48,24 @@ SignalManager = {
           format: (value, object) => {
             return `<a href="#">${value}</a>`
           },
-          click: (title) => {
-            this.sendSignalToCable(title).then()
+          click: (signal) => {
+            this.sendSignalToCable(signal).then()
           }
         },
         description: {name: 'Description'},
-        createTime: {
-          name: 'Create time',
-          format: (value, object) => {
-            return `${value[2]}.${value[1]}.${value[0]} ${value[3]}:${value[4]}:${value[5]}`
-          }
-        },
+        // createTime: {
+        //   name: 'Create time',
+        //   format: (value, object) => {
+        //     return `${value[2]}.${value[1]}.${value[0]} ${value[3]}:${value[4]}:${value[5]}`
+        //   }
+        // },
         view: {
           name: 'View signal',
           format: () => {
             return `<a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>`
           },
-          click: (title) => {
-            this.sendSignals({titles: [title], module: 'SignalViewer'}).then()
+          click: (signal) => {
+            this.sendSignals({signals: [signal], module: 'SignalViewer'}).then()
           }
         },
         del: {
@@ -90,37 +86,28 @@ SignalManager = {
   },
 
   /**
-   * @param {SignalTitle} title
+   * @param {Signal} signal
    * @returns {Promise<void>}
    */
-  async deleteSignal(title) {
-    await ApiProvider.del('/signals/' + title.id)
+  async deleteSignal(signal) {
+    await ApiProvider.del('/signals/' + signal.id)
     this.ui.table.clearAll()
     await this.fillTable()
   },
 
   /**
-   * @param {SignalTitle} title
-   * @returns {Promise<Signal>}
-   */
-  async getSignal(title) {
-    let data = await this.getSignalData(title)
-    return {title, data}
-  },
-
-  /**
-   * @param {SignalTitle} title
+   * @param {Signal} signal
    * @returns {Promise<SignalData>}
    */
-  async getSignalData(title) {
-    return await ApiProvider.getJson('/signaldata/' + title.id)
+  async getSignalData(signal) {
+    signal.data = await ApiProvider.getJson('/signals/' + signal.id + '/data')
   },
 
   /**
-   * @param {SignalTitle} title
+   * @param {Signal} signal
    */
-  async sendSignalToCable(title) {
-    let signal = await this.getSignal(title)
+  async sendSignalToCable(signal) {
+    await this.getSignalData(signal)
     EVENTS.CLEAR_SIGNAL_STACK.trigger()
     await Workspace.startModule({
       module: 'Cable',
@@ -129,13 +116,12 @@ SignalManager = {
   },
 
   /**
-   * @param {SignalTitle[]} titles
+   * @param {Signal[]} titles
    * @param {string} module
    */
-  async sendSignals({titles, module}) {
-    let signals = []
-    for (let title of titles) {
-      signals.push(await this.getSignal(title))
+  async sendSignals({signals, module}) {
+    for (let signal of signals) {
+      await this.getSignalData(signal)
     }
     if (!this.checkSignalsHaveSameXValues(signals)) {
       Workspace.showAlert('Selected signal must have same X values')
@@ -151,12 +137,12 @@ SignalManager = {
    * @param {string} module
    */
   async sendSelectedSignals(module) {
-    let titles = this.ui.table.getSelectedData()
-    if (!titles.length) {
+    let signals = this.ui.table.getSelectedData()
+    if (!signals.length) {
       Workspace.showAlert('No signals chosen')
       return
     }
-    await this.sendSignals({titles, module})
+    await this.sendSignals({signals, module})
   },
 
   /**

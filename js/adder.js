@@ -5,10 +5,8 @@ Adder = {
    */
   init(param) {
     let output = {
-      title: {
-        name: 'Adder output signal',
-        description: this.makeNewSignalDescription(param)
-      },
+      name: 'Adder output signal',
+      description: this.makeNewSignalDescription(param),
       data: []
     }
     for (let signal of param) {
@@ -38,7 +36,7 @@ Adder = {
   makeNewSignalDescription(signals) {
     let description = `Sum of ${signals.length} signals:`
     for (let signal of signals) {
-      description += `\n${signal.title.name},`
+      description += `\n${signal.name},`
     }
     return description
   }

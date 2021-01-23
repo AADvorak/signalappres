@@ -1,5 +1,8 @@
 Integrator = {
 
+  /**
+   * @param {Signal} param
+   */
   init(param) {
     this.signal = param
     let data = this.signal.data
@@ -17,7 +20,7 @@ Integrator = {
       })
     }
     this.signal.data = output
-    this.signal.title.description += '\nTransformed by integrator'
+    this.signal.description += '\nTransformed by integrator'
     Workspace.startModule({
       module: 'Cable',
       param: this.signal

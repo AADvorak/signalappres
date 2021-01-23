@@ -42,10 +42,8 @@ Cable = {
   },
 
   fillForm() {
-    if (this.signal.title) {
-      this.ui.nameInp.val(this.signal.title.name)
-      this.ui.descriptionInp.val(this.signal.title.description)
-    }
+    this.ui.nameInp.val(this.signal.name)
+    this.ui.descriptionInp.val(this.signal.description)
   },
 
   addSendLinks() {
@@ -88,20 +86,20 @@ Cable = {
   },
 
   async saveSignalAsNew() {
-    delete this.signal.title.id
+    delete this.signal.id
     await this.saveSignal()
   },
 
   async saveSignal() {
     let formValues = this.getFormValues()
     let signalToSave = {
-      title: formValues,
+      ...formValues,
       data: this.signal.data || []
     }
     if (this.signalIsSaved()) {
-      await ApiProvider.putJson('/signals/' + this.signal.title.id, signalToSave)
+      await ApiProvider.putJson('/signals/' + this.signal.id, signalToSave)
     } else {
-      this.signal.title = await ApiProvider.postJson('/signals/', signalToSave)
+      await ApiProvider.postJson('/signals/', signalToSave)
     }
     Workspace.startModule({
       module: 'SignalManager'
@@ -120,7 +118,7 @@ Cable = {
   },
 
   signalIsSaved() {
-    return this.signal.title && this.signal.title.id
+    return !!this.signal.id
   },
 
   copySignal() {

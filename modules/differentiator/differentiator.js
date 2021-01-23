@@ -1,5 +1,8 @@
 Differentiator = {
 
+  /**
+   * @param {Signal} param
+   */
   init(param) {
     this.signal = param
     let data = this.signal.data
@@ -15,7 +18,7 @@ Differentiator = {
       })
     }
     this.signal.data = output
-    this.signal.title.description += '\nTransformed by differentiator'
+    this.signal.description += '\nTransformed by differentiator'
     Workspace.startModule({
       module: 'Cable',
       param: this.signal

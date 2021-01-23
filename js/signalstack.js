@@ -18,7 +18,7 @@ SignalStack = {
    * @param {Signal} signal
    */
   addSignal(signal) {
-    this.signals.push({...signal})
+    this.signals.push(signal)
   },
 
   /**

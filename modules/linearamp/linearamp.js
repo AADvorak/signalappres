@@ -1,5 +1,8 @@
 LinearAmp = {
 
+  /**
+   * @param {Signal} param
+   */
   init(param) {
     this.signal = param
     this.selectElements()
@@ -20,7 +23,7 @@ LinearAmp = {
 
   doTransform() {
     let coef = parseFloat(this.ui.coefInp.val())
-    this.signal.title.description += `\nTransformed by linear amplifier with k = ${coef}`
+    this.signal.description += `\nTransformed by linear amplifier with k = ${coef}`
     let data = this.signal.data
     for (let item of data) {
       item.y = parseFloat(item.y) * coef

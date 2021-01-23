@@ -7,7 +7,7 @@ FileManager = {
     const txt = this.signalDataToTxt(signal.data)
     let element = document.createElement('a')
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt))
-    element.setAttribute('download', signal.title.name + '.txt')
+    element.setAttribute('download', signal.name + '.txt')
     element.style.display = 'none'
     document.body.appendChild(element)
     element.click()

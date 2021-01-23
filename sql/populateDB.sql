@@ -10,7 +10,7 @@ create table module
     transformer boolean not null
 );
 
-create table signal_title
+create table signal
 (
     id          serial                              not null
         constraint chart_title_pk
@@ -22,12 +22,15 @@ create table signal_title
 
 create table signal_data
 (
-    id              serial  not null
+    id        serial  not null
         constraint chart_data_pk
             primary key,
-    signal_title_id integer not null,
-    x               numeric,
-    y               numeric
+    signal_id integer not null
+        constraint signal_data_signal_title_id_fk
+            references signal
+            on update cascade on delete cascade,
+    x         numeric,
+    y         numeric
 );
 
 INSERT INTO public.module (module, name, container, for_menu, transformer)

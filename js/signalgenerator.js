@@ -69,10 +69,8 @@ SignalGenerator = {
       data.push({x, y})
     }
     this.sendToCable({
-      title: {
-        name: `Generated ${form} signal`,
-        description: `Period = ${period}, Amplitude = ${amplitude}`
-      },
+      name: `Generated ${form} signal`,
+      description: `Period = ${period}, Amplitude = ${amplitude}`,
       data
     })
   },
@@ -80,10 +78,8 @@ SignalGenerator = {
   async importFromFile() {
     let data = await FileManager.readFile(this.ui.fileInp)
     this.sendToCable({
-      title: {
-        name: `Imported signal`,
-        description: `Imported from file ${this.ui.fileInp.val()}`
-      },
+      name: `Imported signal`,
+      description: `Imported from file ${this.ui.fileInp.val()}`,
       data
     })
   },
