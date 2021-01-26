@@ -13,7 +13,7 @@ create table module
 create table signal
 (
     id          serial                              not null
-        constraint chart_title_pk
+        constraint signal_pk
             primary key,
     name        varchar(250),
     description varchar,
@@ -23,10 +23,10 @@ create table signal
 create table signal_data
 (
     id        serial  not null
-        constraint chart_data_pk
+        constraint signal_data_pk
             primary key,
     signal_id integer not null
-        constraint signal_data_signal_title_id_fk
+        constraint signal_data_signal_id_fk
             references signal
             on update cascade on delete cascade,
     x         numeric,
