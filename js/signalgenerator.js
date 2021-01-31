@@ -47,7 +47,7 @@ SignalGenerator = {
     this.ui = {}
     this.ui.signalParamForm = {}
     this.ui.signalParamForm.begin = $('#SignalGeneratorBegin')
-    this.ui.signalParamForm.beginValid= $('#SignalGeneratorBeginValid')
+    this.ui.signalParamForm.beginValid = $('#SignalGeneratorBeginValid')
     this.ui.signalParamForm.length = $('#SignalGeneratorLength')
     this.ui.signalParamForm.lengthValid = $('#SignalGeneratorLengthValid')
     this.ui.signalParamForm.step = $('#SignalGeneratorStep')
@@ -137,13 +137,13 @@ SignalGenerator = {
 
   generateAndOpenSaver({begin, length, step, period, amplitude, offset, form}) {
     let data = []
-    for (let x = begin; x <= begin + length; x += step) {
+    for (let x = begin; x < begin + length; x += step) {
       let y = this.SIGNAL_FORMS[form]({x, period, amplitude, offset})
       data.push({x, y})
     }
     this.sendToCable({
       name: `Generated ${form} signal`,
-      description: `Period = ${period}, Amplitude = ${amplitude}`,
+      description: `Begin = ${begin}, Length = ${length}, Step = ${step}, Period = ${period}, Amplitude = ${amplitude}, Offset = ${offset} (${data.length} points)`,
       data
     })
   },
