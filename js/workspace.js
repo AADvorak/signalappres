@@ -1,4 +1,16 @@
+/**
+ * @typedef {Object} Module
+ * @property {number} [id]
+ * @property {string} module
+ * @property {string} name
+ * @property {string} container
+ * @property {boolean} forMenu
+ * @property {boolean} isTransformer
+ */
+
 Workspace = {
+
+  WIDE_SCREEN_MODE_MIN_WIDTH: 1200,
 
   MODULES_BASE: [
     {module: 'SignalGenerator', name: 'Signal generator', container: 'left', forMenu: true},
@@ -54,11 +66,19 @@ Workspace = {
       this.closeModule(this.modulesInContainers['right'])
     })
     $(window).on('resize', () => {
-      this.setScrollHeight()
+      this.actionOnScreenResize()
     })
     $(window).on('orientationchange', () => {
-      this.setScrollHeight()
+      this.actionOnScreenResize()
     })
+  },
+
+  actionOnScreenResize() {
+    this.setScrollHeight()
+    if (document.documentElement.clientWidth < this.WIDE_SCREEN_MODE_MIN_WIDTH) {
+      if (this.modulesInContainers['left']) this.closeModule(this.modulesInContainers['left'])
+      if (this.modulesInContainers['right']) this.closeModule(this.modulesInContainers['right'])
+    }
   },
 
   setScrollHeight() {
@@ -83,37 +103,32 @@ Workspace = {
     obj.init()
   },
 
-  async startModule({module, param}) {
-    let found = false
-    for (let moduleObj of this.modules) {
-      if (moduleObj.module === module) {
-        await this.setModuleToContainer({
-          module,
-          param,
-          name: moduleObj.name,
-          container: moduleObj.container,
-          isUserModule: true
-        })
-        found = true
-        break
-      }
+  getModuleByObjName(objName) {
+    for (let module of this.getAllModules()) {
+      if (module.module === objName) return module
     }
-    if (!found) for (let moduleObj of this.MODULES_BASE) {
-      if (moduleObj.module === module) {
-        await this.setModuleToContainer({
-          module,
-          param,
-          name: moduleObj.name,
-          container: moduleObj.container
-        })
-        found = true
-        break
-      }
+  },
+
+  isUserModule(module) {
+    return this.modules.includes(module)
+  },
+
+  async startModule({module, param}) {
+    let moduleObj = this.getModuleByObjName(module)
+    if (moduleObj) {
+      let isUserModule = this.isUserModule(moduleObj)
+      await this.setModuleToContainer({
+        module,
+        param,
+        name: moduleObj.name,
+        container: moduleObj.container,
+        isUserModule
+      })
     }
   },
   
   async setModuleToContainer({module, name, container, param, isUserModule}) {
-    if (['left', 'right'].includes(container) && document.documentElement.clientWidth < 1024) {
+    if (['left', 'right'].includes(container) && document.documentElement.clientWidth < this.WIDE_SCREEN_MODE_MIN_WIDTH) {
       container = 'main'
     }
     let obj = await ModuleLoader.loadModule({module, isUserModule, container: this.ui[container + 'Container']})
@@ -157,7 +172,9 @@ Workspace = {
     if (!container) return
     delete this.modulesInContainers[container]
     this.unsubscribeModuleFromEvents(obj)
-    if (['left', 'right'].includes(container)) this.closeSideContainer(container)
+    if (['left', 'right'].includes(container)) {
+      this.closeSideContainer(container)
+    }
   },
 
   closeSideContainer(container) {
