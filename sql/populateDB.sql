@@ -1,4 +1,10 @@
-create table module
+drop table if exists public.module;
+
+drop table if exists public.signal_data;
+
+drop table if exists public.signal;
+
+create table public.module
 (
     id          serial  not null
         constraint module_pk
@@ -10,7 +16,7 @@ create table module
     transformer boolean not null
 );
 
-create table signal
+create table public.signal
 (
     id          serial                              not null
         constraint signal_pk
@@ -20,7 +26,7 @@ create table signal
     create_time timestamp default CURRENT_TIMESTAMP not null
 );
 
-create table signal_data
+create table public.signal_data
 (
     id        serial  not null
         constraint signal_data_pk
