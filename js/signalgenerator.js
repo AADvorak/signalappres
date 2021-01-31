@@ -41,6 +41,7 @@ SignalGenerator = {
     this.selectElements()
     this.fillFormSelector()
     this.initEvents()
+    this.setSignalParamValuesFromCookie()
   },
 
   selectElements() {
@@ -73,6 +74,7 @@ SignalGenerator = {
     this.ui.saveBtn.on('click', () => {
       let values = this.getSignalParamValues()
       if (this.validateSignalParamValues(values)) {
+        CookieManager.writeObjectToCookie('SignalParamValues', values)
         this.generateAndOpenSaver(values)
       }
     })
@@ -91,6 +93,20 @@ SignalGenerator = {
       amplitude: parseFloat(form.amplitude.val()),
       offset: parseFloat(form.offset.val()),
       form: form.form.val()
+    }
+  },
+
+  setSignalParamValuesFromCookie() {
+    let values = CookieManager.readObjectFromCookie('SignalParamValues')
+    if (values) {
+      let form = this.ui.signalParamForm
+      form.begin.val(values.begin)
+      form.length.val(values.length)
+      form.step.val(values.step)
+      form.period.val(values.period)
+      form.amplitude.val(values.amplitude)
+      form.offset.val(values.offset)
+      form.form.val(values.form)
     }
   },
 
