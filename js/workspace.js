@@ -53,10 +53,17 @@ Workspace = {
     this.ui.rightCloseLnk.on('click', () => {
       this.closeModule(this.modulesInContainers['right'])
     })
+    $(window).on('resize', () => {
+      this.setScrollHeight()
+    })
+    $(window).on('orientationchange', () => {
+      this.setScrollHeight()
+    })
   },
 
   setScrollHeight() {
     let h = document.documentElement.clientHeight - 100
+    if (h < 100) h = 100
     this.ui.mainContainer.css('max-height', h)
     this.ui.leftContainer.css('max-height', h)
     this.ui.rightContainer.css('max-height', h)
