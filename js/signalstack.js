@@ -1,17 +1,19 @@
 SignalStack = {
 
   signals: [],
+  initiator: '',
 
   init() {
     this.initEvents()
   },
 
   initEvents() {
-    EVENTS.CLEAR_SIGNAL_STACK.subscribe(this, 'clear')
+    EVENTS.INIT_SIGNAL_STACK.subscribe(this, 'initStack')
   },
 
-  clear() {
+  initStack(initiator) {
     this.signals = []
+    this.initiator = initiator
   },
 
   /**

@@ -37,6 +37,6 @@ EVENTS = {
   /**
    * Signal stack need to be cleared
    */
-  CLEAR_SIGNAL_STACK: new AppEvent()
+  INIT_SIGNAL_STACK: new AppEvent()
 
 }

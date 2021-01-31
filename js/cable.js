@@ -80,7 +80,7 @@ Cable = {
       }).then()
     } else {
       Workspace.startModule({
-        module: 'SignalManager'
+        module: SignalStack.initiator
       }).then()
     }
   },

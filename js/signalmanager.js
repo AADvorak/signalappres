@@ -108,7 +108,7 @@ SignalManager = {
    */
   async sendSignalToCable(signal) {
     await this.getSignalData(signal)
-    EVENTS.CLEAR_SIGNAL_STACK.trigger()
+    EVENTS.INIT_SIGNAL_STACK.trigger('SignalManager')
     await Workspace.startModule({
       module: 'Cable',
       param: signal

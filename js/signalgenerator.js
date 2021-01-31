@@ -158,7 +158,7 @@ SignalGenerator = {
   },
 
   sendToCable(signal) {
-    EVENTS.CLEAR_SIGNAL_STACK.trigger()
+    EVENTS.INIT_SIGNAL_STACK.trigger('SignalGenerator')
     Workspace.startModule({
       module: 'Cable',
       param: signal
