@@ -159,7 +159,7 @@ SignalGenerator = {
     }
     this.sendToCable({
       name: `Generated ${form} signal`,
-      description: `Begin = ${begin}, Length = ${length}, Step = ${step}, Period = ${period}, Amplitude = ${amplitude}, Offset = ${offset} (${data.length} points)`,
+      description: `B = ${begin}, L = ${length}, S = ${step}, P = ${period}, A = ${amplitude}, O = ${offset} (${data.length} points)`,
       data
     })
   },

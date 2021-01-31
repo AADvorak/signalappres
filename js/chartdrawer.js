@@ -16,7 +16,7 @@ ChartDrawer = {
         data.push(parseFloat(item.y))
       }
       series.push({
-        name: signal.name,
+        name: StringManager.restrictLength(signal.name, 50),
         data
       })
     }
@@ -37,7 +37,7 @@ ChartDrawer = {
    * @returns {string}
    */
   makeChartTitle(signals) {
-    return signals.length > 1 ? `Selected ${signals.length} signals` : signals[0].name
+    return signals.length > 1 ? `Selected ${signals.length} signals` : StringManager.restrictLength(signals[0].name, 50)
   }
 
 }

@@ -46,19 +46,21 @@ SignalManager = {
         name: {
           name: 'Name',
           format: (value, object) => {
-            return `<a href="#">${value}</a>`
+            let formattedValue = StringManager.restrictLength(value, 50)
+            return `<a href="#">${formattedValue}</a>`
           },
           click: (signal) => {
             this.sendSignalToCable(signal).then()
           }
         },
-        description: {name: 'Description'},
-        // createTime: {
-        //   name: 'Create time',
-        //   format: (value, object) => {
-        //     return `${value[2]}.${value[1]}.${value[0]} ${value[3]}:${value[4]}:${value[5]}`
-        //   }
-        // },
+        description: {
+          name: 'Description',
+          format: (value) => {
+            let formattedValue = StringManager.onlyBeforeNewLine(value)
+            formattedValue = StringManager.restrictLength(formattedValue, 200)
+            return formattedValue
+          }
+        },
         view: {
           name: 'View signal',
           format: () => {
