@@ -26,7 +26,7 @@ LinearAmp = {
     this.signal.description += `\nTransformed by linear amplifier with k = ${coef}`
     let data = this.signal.data
     for (let item of data) {
-      item.y = parseFloat(item.y) * coef
+      item.y *= coef
     }
     Workspace.closeModule(this)
     Workspace.startModule({

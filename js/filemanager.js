@@ -39,8 +39,8 @@ FileManager = {
       }
       if (item.x && item.y) {
         data.push({
-          x: values[0],
-          y: values[1]
+          x: parseFloat(values[0]),
+          y: parseFloat(values[1])
         })
       }
     }

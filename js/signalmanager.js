@@ -9,8 +9,8 @@
 
 /**
  * @typedef {Object} SignalData
- * @property {string} x
- * @property {string} y
+ * @property {number} x
+ * @property {number} y
  */
 
 SignalManager = {

@@ -7,13 +7,13 @@ ChartDrawer = {
   drawLines({container, signals}) {
     let categories = []
     for (let point of signals[0].data) {
-      categories.push(parseFloat(point.x).toFixed(2))
+      categories.push(point.x.toFixed(2))
     }
     let series = []
     for (let signal of signals) {
       let data = []
       for (let item of signal.data) {
-        data.push(parseFloat(item.y))
+        data.push(item.y)
       }
       series.push({
         name: StringManager.restrictLength(signal.name, 50),
