@@ -1,34 +1,12 @@
 CookieManager = {
 
   writeObjectToCookie(key, object) {
-    let writtenKeys = ''
-    for (let objKey in object) {
-      if (object.hasOwnProperty(objKey)) {
-        let value = object[objKey]
-        if (typeof value !== 'object') {
-          this.writeValueToCookie(key + objKey, value)
-          writtenKeys += writtenKeys ? ',' + objKey : objKey
-        }
-      }
-    }
-    if (writtenKeys) this.writeValueToCookie(key + 'keys', writtenKeys)
+    this.writeValueToCookie(key, JSON.stringify(object))
   },
 
   readObjectFromCookie(key) {
-    let object = {}
-    let writtenKeys = this.readValueFromCookie(key + 'keys')
-    if (writtenKeys && writtenKeys.length) {
-      let writtenKeysArr = []
-      if (writtenKeys.includes(',')) {
-        writtenKeysArr = writtenKeys.split(',')
-      } else {
-        writtenKeysArr.push(writtenKeys)
-      }
-      for (let objKey of writtenKeysArr) {
-        object[objKey] = this.readValueFromCookie(key + objKey)
-      }
-      return object
-    }
+    let json = this.readValueFromCookie(key)
+    if (json) return JSON.parse(json)
   },
 
   readValueFromCookie(key) {
