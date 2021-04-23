@@ -48,7 +48,7 @@ LinearAmp = {
     let invalidMsg = ''
     if (isNaN(coefficient)) {
       invalidMsg = 'Should be a number'
-    } else if (coefficient <= 0) {
+    } else if (coefficient < 0) {
       invalidMsg = 'Must have positive value'
     }
     if (invalidMsg) {
