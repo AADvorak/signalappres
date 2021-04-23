@@ -29,6 +29,9 @@ ChartDrawer = {
         text: this.makeChartTitle(signals)
       },
       series,
+      chart: {
+        zoomType: 'xy'
+      },
     });
   },
 
