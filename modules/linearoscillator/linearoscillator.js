@@ -66,7 +66,7 @@ LinearOscillator = {
     }
     CookieManager.writeObjectToCookie('LinearOscillatorParams', this.params)
     this.signal.description += `\nTransformed by linear oscillator with f = ${this.params.frequency}, d = ${this.params.damping}`
-    this.signal.data = DSolver.solveEulerMethod({
+    this.signal.data = DSolver.solve({
       inData: this.signal.data,
       equations: this.EQUATIONS,
       params: this.params,

@@ -1,5 +1,7 @@
 DSolver = {
 
+  method: 'Euler',
+
   /**
    *
    * @param {SignalData[]} inData
@@ -9,6 +11,10 @@ DSolver = {
    * @param {number} outNumber
    * @returns {SignalData[]}
    */
+  solve({inData, equations, params, initial, outNumber}) {
+    return this['solve' + this.method + 'Method']({inData, equations, params, initial, outNumber})
+  },
+
   solveEulerMethod({inData, equations, params, initial, outNumber}) {
     let outData = []
     let equationsNumber = equations.length
