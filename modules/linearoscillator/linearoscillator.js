@@ -10,7 +10,7 @@ LinearOscillator = {
       return arguments[1]
     },
     (input, arguments, params) => {
-      return input - 2 * params.damping * arguments[1] - Math.pow(params.frequency, 2) * arguments[0]
+      return input - 2 * params.damping * arguments[1] - Math.pow(2 * Math.PI * params.frequency, 2) * arguments[0]
     }
   ],
 
