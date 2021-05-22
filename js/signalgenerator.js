@@ -34,6 +34,9 @@ SignalGenerator = {
     },
     sawtooth: ({x, period, amplitude, offset}) => {
       return offset + (2 * amplitude / Math.PI) * Math.atan(Math.tan(x * Math.PI / period))
+    },
+    noise: ({x, period, amplitude, offset}) => {
+      return offset + amplitude * (Math.random() * 2 - 1)
     }
   },
 

@@ -48,4 +48,8 @@ VALUES ('Integrator', 'Integrator', null, false, true);
 INSERT INTO public.module (module, name, container, for_menu, transformer)
 VALUES ('Differentiator', 'Differentiator', null, false, true);
 INSERT INTO public.module (module, name, container, for_menu, transformer)
+VALUES ('Inverter', 'Inverter', null, false, true);
+INSERT INTO public.module (module, name, container, for_menu, transformer)
+VALUES ('SpectrumAnalyser', 'Spectrum analyser', null, false, true);
+INSERT INTO public.module (module, name, container, for_menu, transformer)
 VALUES ('LinearOscillator', 'Linear oscillator', 'right', false, true);
