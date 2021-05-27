@@ -1,21 +1,13 @@
-Adder = {
+Correlator = {
 
   /**
    * @param {Signal[]} param
    */
   init(param) {
     let output = {
-      name: 'Adder output signal',
+      name: 'Correlator output signal',
       description: this.makeNewSignalDescription(param),
-      data: []
-    }
-    let commonGrid = SignalUtils.makeCommonSignalsValueGrid(param)
-    for (let x of commonGrid) {
-      let y = 0
-      for (let signal of param) {
-        y += SignalUtils.getSignalValue(signal, x)
-      }
-      output.data.push({x, y})
+      data: SignalUtils.estimateCorrelationFunction(param[0], param[1])
     }
     Workspace.startModule({
       module: 'Cable',
@@ -28,7 +20,7 @@ Adder = {
    * @returns {string}
    */
   makeNewSignalDescription(signals) {
-    let description = `Sum of ${signals.length} signals:`
+    let description = `Correlation of signals:`
     for (let signal of signals) {
       description += `\n${signal.name},`
     }

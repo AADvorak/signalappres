@@ -19,7 +19,8 @@ Workspace = {
     {module: 'ModuleManager', name: 'Module manager', container: 'main', forMenu: true},
     {module: 'ModuleEditor', name: 'Module editor', container: 'modal', forMenu: false},
     {module: 'Cable', name: 'Cable', container: 'main', forMenu: false},
-    {module: 'Adder', name: 'Signal adder', forMenu: false}
+    {module: 'Adder', name: 'Signal adder', forMenu: false},
+    {module: 'Correlator', name: 'Signal correlator', forMenu: false}
   ],
 
   modules: [],

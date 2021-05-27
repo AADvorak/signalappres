@@ -40,16 +40,11 @@ create table public.signal_data
 );
 
 INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('DummyTransformer', 'Dummy transformer', null, false, true);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('LinearAmp', 'Linear amplifier', 'right', false, true);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('Integrator', 'Integrator', null, false, true);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('Differentiator', 'Differentiator', null, false, true);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('Inverter', 'Inverter', null, false, true);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('SpectrumAnalyser', 'Spectrum analyser', null, false, true);
-INSERT INTO public.module (module, name, container, for_menu, transformer)
-VALUES ('LinearOscillator', 'Linear oscillator', 'right', false, true);
+VALUES ('DummyTransformer', 'Dummy transformer', null, false, true),
+       ('LinearAmp', 'Linear amplifier', 'right', false, true),
+       ('Integrator', 'Integrator', null, false, true),
+       ('Differentiator', 'Differentiator', null, false, true),
+       ('Inverter', 'Inverter', null, false, true),
+       ('SpectrumAnalyser', 'Spectrum analyser', null, false, true),
+       ('SelfCorrelator', 'Self correlator', null, false, true),
+       ('LinearOscillator', 'Linear oscillator', 'right', false, true);

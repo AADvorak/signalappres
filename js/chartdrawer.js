@@ -5,15 +5,17 @@ ChartDrawer = {
    * @param {Signal[]} signals
    */
   drawLines({container, signals}) {
+    SignalUtils.calculateSignalsParams(signals)
+    let commonGrid = SignalUtils.makeCommonSignalsValueGrid(signals)
     let categories = []
-    for (let point of signals[0].data) {
-      categories.push(point.x.toFixed(2))
+    for (let x of commonGrid) {
+      categories.push(x.toFixed(2))
     }
     let series = []
     for (let signal of signals) {
       let data = []
-      for (let item of signal.data) {
-        data.push(item.y)
+      for (let x of commonGrid) {
+        data.push(SignalUtils.getSignalValue(signal, x))
       }
       series.push({
         name: StringManager.restrictLength(signal.name, 50),

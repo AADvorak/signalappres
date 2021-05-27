@@ -3,8 +3,16 @@
  * @property {number} [id]
  * @property {string} name
  * @property {string} description
- * @property {string[]} [createTime]
  * @property {SignalData[]} [data]
+ * @property {SignalParams} params
+ */
+
+/**
+ * @typedef {Object} SignalParams
+ * @property {number} xMin
+ * @property {number} xMax
+ * @property {number} step
+ * @property {number} length
  */
 
 /**
@@ -26,6 +34,7 @@ SignalManager = {
     this.ui = {}
     this.ui.addSignalsBtn = $('#SignalManagerAdd')
     this.ui.viewSignalsBtn = $('#SignalManagerView')
+    this.ui.correlateSignalsBtn = $('#SignalManagerCorrelate')
   },
 
   initEvents() {
@@ -34,6 +43,9 @@ SignalManager = {
     })
     this.ui.viewSignalsBtn.on('click', () => {
       this.sendSelectedSignals('SignalViewer').then()
+    })
+    this.ui.correlateSignalsBtn.on('click', () => {
+      this.sendSelectedSignals('Correlator').then()
     })
   },
 
@@ -125,8 +137,9 @@ SignalManager = {
     for (let signal of signals) {
       await this.getSignalData(signal)
     }
-    if (!this.checkSignalsHaveSameXValues(signals)) {
-      Workspace.showAlert('Selected signal must have same X values')
+    SignalUtils.calculateSignalsParams(signals)
+    if (!SignalUtils.checkSignalsValueGrid(signals)) {
+      Workspace.showAlert('Selected signal X values must lie on the same grid')
       return
     }
     await Workspace.startModule({
@@ -146,22 +159,5 @@ SignalManager = {
     }
     await this.sendSignals({signals, module})
   },
-
-  /**
-   * @param {Signal[]} signals
-   */
-  checkSignalsHaveSameXValues(signals) {
-    let length = signals[0].data.length
-    for (let signal of signals) {
-      if (signal.data.length !== length) return false
-    }
-    for (let i = 0; i < length; i++) {
-      let x = signals[0].data[i].x
-      for (let signal of signals) {
-        if (signal.data[i].x !== x) return false
-      }
-    }
-    return true
-  }
 
 }
